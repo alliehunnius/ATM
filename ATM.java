@@ -37,6 +37,19 @@ public class ATM {
         }
         
     }
+
+    public double depositMoney (String email, double amount) throws Exception
+    {
+        if (hm.containsKey (email))
+        {
+            hm.get (email).addBalance (amount);
+            return amount;
+        }
+        else
+        {
+            throw new Exception ("You can't deposit money because you don't have an account. This is likely because you are broke AF.");
+        }
+    }
     
 }
 
