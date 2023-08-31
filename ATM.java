@@ -21,7 +21,7 @@ public class ATM {
         }
         else
         {
-            throw new Exception ("This user already has an account.");
+            throw new Exception ("This user already has an account. Idiot.");
         }
     }
 
@@ -33,7 +33,7 @@ public class ATM {
         }
         else
         {
-            throw new Exception ("No account can be found under this email.");
+            throw new Exception ("No account can be found under this email. Create an account on try somewhere else, stupid.");
         }
         
     }
@@ -48,6 +48,27 @@ public class ATM {
         else
         {
             throw new Exception ("You can't deposit money because you don't have an account. This is likely because you are broke AF.");
+        }
+    }
+
+    public double withdrawMoney (String email, double amount) throws Exception
+    {
+        if (hm.containsKey (email))
+        {
+            double currentBalance = hm.get (email).getBalance();
+            if (currentBalance >= amount)
+            {
+                hm.get(email).subtractBalance(currentBalance - amount);
+                return amount;
+            }
+            else
+            {
+                throw new Exception ("You don't have enough money to do this. You're broke AF. Sorry, not sorry.");
+            }
+        }
+        else
+        {
+            throw new Exception ("You don't have an account with us. Nice try, loser.");
         }
     }
     
