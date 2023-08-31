@@ -19,7 +19,10 @@ public class ATM {
         {
             hm.put (email, new Account(amount));
         }
+        else{
+            throw new Exception ("This user already has an account.");
+        }
 
 
     }
-}
+
