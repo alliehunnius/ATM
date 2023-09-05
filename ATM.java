@@ -13,11 +13,11 @@ public class ATM {
 
 
 
-    public void createAccount (String email, double amount) throws Exception
+    public void createAccount (String userId, double amount) throws Exception
     {
-        if (!hm.containsKey(email))
+        if (!hm.containsKey(userId))
         {
-            hm.put (email, new Account(amount));
+            hm.put (userId, new Account(amount));
         }
         else
         {
@@ -25,11 +25,11 @@ public class ATM {
         }
     }
 
-    public double checkBalance (String email) throws Exception
+    public double checkBalance (String userId) throws Exception
     {
-        if (hm.containsKey (email))
+        if (hm.containsKey (userId))
         {
-            return hm.get (email).getBalance();
+            return hm.get (userId).getBalance();
         }
         else
         {
@@ -38,11 +38,11 @@ public class ATM {
         
     }
 
-    public double depositMoney (String email, double amount) throws Exception
+    public double depositMoney (String userId, double amount) throws Exception
     {
-        if (hm.containsKey (email))
+        if (hm.containsKey (userId))
         {
-            hm.get (email).addBalance (amount);
+            hm.get (userId).addBalance (amount);
             return amount;
         }
         else
@@ -51,14 +51,14 @@ public class ATM {
         }
     }
 
-    public double withdrawMoney (String email, double amount) throws Exception
+    public double withdrawMoney (String userId, double amount) throws Exception
     {
-        if (hm.containsKey (email))
+        if (hm.containsKey (userId))
         {
-            double currentBalance = hm.get (email).getBalance();
+            double currentBalance = hm.get (userId).getBalance();
             if (currentBalance >= amount)
             {
-                hm.get(email).subtractBalance(currentBalance - amount);
+                hm.get(userId).subtractBalance(amount);
                 return amount;
             }
             else
@@ -70,6 +70,44 @@ public class ATM {
         {
             throw new Exception ("You don't have an account with us. Nice try, loser.");
         }
+    }
+
+    public boolean transferMoney (String toAccount, String fromAccount, double amount) throws Exception
+    {
+        if (hm.containsKey (toAccount) && hm.containsKey (fromAccount))
+        {
+            if (hm.get (toAccount).getBalance () >= amount)
+            {
+                hm.get (toAccount).subtractBalance (amount);
+                hm.get (fromAccount).addBalance(amount);
+                return true;
+            }
+            else
+            {
+                throw new Exception ("You don't have enough money to do this. You're broke AF. Sorry, not sorry.");
+            }
+        }
+        else
+        {
+            throw new Exception ("Either one, or both of these counts don't exist. Stop wasting my time");
+        }
+    }
+
+    public void closerAccount (String userId) throws Exception
+    {
+        if (hm.get (userId).getBalance() > 0)
+        {
+            throw new Exception ("You need to withdraw your money before you can close your account.");
+        }
+        else
+        {
+            hm.remove(userId);
+        }
+    }
+
+    public void audit ()
+    {
+        
     }
     
 }
