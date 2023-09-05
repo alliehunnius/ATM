@@ -1,3 +1,5 @@
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
 
 public class ATM {
@@ -93,7 +95,7 @@ public class ATM {
         }
     }
 
-    public void closerAccount (String userId) throws Exception
+    public void closeAccount (String userId) throws Exception
     {
         if (hm.get (userId).getBalance() > 0)
         {
@@ -105,9 +107,15 @@ public class ATM {
         }
     }
 
-    public void audit ()
+    public void audit () throws IOException
     {
-        
+        FileWriter fw = new FileWriter ("AccountAudit.txt");
+        for (String userId: hm.keySet())
+        {
+            fw.write (userId + "\n");
+            fw.write (Double.toString (hm.get (userId).getBalance()) + "\n");
+        }
+        fw.close();
     }
     
 }
